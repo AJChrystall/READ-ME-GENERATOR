@@ -1,5 +1,7 @@
+const init = async () => {
 // Importing necessary modules
-const inquirer = require('inquirer');
+const inquirer = await import('inquirer');
+
 const fs = require('fs');
 
 // Inquirer prompts
@@ -107,3 +109,5 @@ inquirer.prompt(questions)
     });
   })
   .catch(err => console.error(err));
+}
+init();

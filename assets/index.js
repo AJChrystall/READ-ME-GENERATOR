@@ -1,10 +1,8 @@
-const init = async () => {
 // Importing necessary modules
-const inquirer = await import('inquirer');
-
 const fs = require('fs');
 
 // Inquirer prompts
+const inquirer = require('inquirer');
 const questions = [
   {
     type: 'input',
@@ -96,9 +94,10 @@ For questions or concerns, please contact me at my GitHub profile: [${answers.gi
   `;
 }
 
-// Prompting user with questions
-inquirer.prompt(questions)
-  .then(answers => {
+// Async function to prompt user with questions and generate README
+async function generateREADME() {
+  try {
+    const answers = await inquirer.prompt(questions);
     const readmeContent = generateReadme(answers);
     fs.writeFile('README.md', readmeContent, err => {
       if (err) {
@@ -107,7 +106,9 @@ inquirer.prompt(questions)
         console.log('README.md file has been generated successfully!');
       }
     });
-  })
-  .catch(err => console.error(err));
+  } catch (error) {
+    console.error(error);
+  }
 }
-init();
+
+generateREADME();

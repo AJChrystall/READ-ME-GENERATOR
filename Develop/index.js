@@ -1,19 +1,18 @@
+require = require("esm")(module);
+
 // Importing necessary modules
-const fs = require('fs');
+import inquirer from 'inquirer';
+import fs from 'fs';
 
 // Inquirer prompts
-const inquirer = require('inquirer');
 const questions = [
   {
     type: 'input',
     name: 'projectTitle',
     message: 'What is the title of your project?'
   },
-  {
-    type: 'input',
-    name: 'projectDescription',
-    message: 'Please provide a brief description of your project:'
-  },
+  // rest of the code ...
+
   {
     type: 'input',
     name: 'installationInstructions',
@@ -94,10 +93,9 @@ For questions or concerns, please contact me at my GitHub profile: [${answers.gi
   `;
 }
 
-// Async function to prompt user with questions and generate README
-async function generateREADME() {
-  try {
-    const answers = await inquirer.prompt(questions);
+// Prompting user with questions
+inquirer.prompt(questions)
+  .then(answers => {
     const readmeContent = generateReadme(answers);
     fs.writeFile('README.md', readmeContent, err => {
       if (err) {
@@ -106,9 +104,6 @@ async function generateREADME() {
         console.log('README.md file has been generated successfully!');
       }
     });
-  } catch (error) {
-    console.error(error);
-  }
-}
+  })
+  .catch(err => console.error(err));
 
-generateREADME();
